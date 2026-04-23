@@ -1,5 +1,8 @@
 ---
 import "../styles/global.css";
+import Sun from "@lucide/astro/icons/sun";
+import Moon from "@lucide/astro/icons/moon";
+import SunMoon from "@lucide/astro/icons/sun-moon";
 
 interface Props {
   title: string;
@@ -35,9 +38,12 @@ const { title } = Astro.props;
       <span class="font-semibold tracking-tight">solokhin.dev</span>
       <button
         id="theme-toggle"
-        class="text-sm px-3 py-1.5 rounded-(--radius) border border-border bg-muted text-muted-foreground hover:bg-accent hover:text-accent-foreground transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+        aria-label="Toggle theme"
+        class="p-2 rounded-(--radius) border border-border bg-muted text-muted-foreground hover:bg-accent hover:text-accent-foreground transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
       >
-        <span id="theme-label">System</span>
+        <Sun id="icon-light" size={16} class="hidden" />
+        <Moon id="icon-dark" size={16} class="hidden" />
+        <SunMoon id="icon-system" size={16} class="hidden" />
       </button>
     </header>
     <main>
@@ -45,13 +51,15 @@ const { title } = Astro.props;
     </main>
     <script>
       const btn = document.getElementById("theme-toggle");
-      const label = document.getElementById("theme-label");
+      const iconLight = document.getElementById("icon-light");
+      const iconDark = document.getElementById("icon-dark");
+      const iconSystem = document.getElementById("icon-system");
 
-      function getLabel() {
+      function showIcon() {
         const t = localStorage.getItem("theme");
-        if (t === "light") return "Light";
-        if (t === "dark") return "Dark";
-        return "System";
+        iconLight?.classList.toggle("hidden", t !== "light");
+        iconDark?.classList.toggle("hidden", t !== "dark");
+        iconSystem?.classList.toggle("hidden", !!t);
       }
 
       function applyTheme() {
@@ -90,10 +98,10 @@ const { title } = Astro.props;
           localStorage.removeItem("theme");
         }
         applyTheme();
-        if (label) label.textContent = getLabel();
+        showIcon();
       }
 
-      if (label) label.textContent = getLabel();
+      showIcon();
       btn?.addEventListener("click", cycleTheme);
     </script>
   </body>
