@@ -1,0 +1,18 @@
+---
+import Sun from "@lucide/astro/icons/sun";
+import Moon from "@lucide/astro/icons/moon";
+import SunMoon from "@lucide/astro/icons/sun-moon";
+---
+
+<header class="border-b border-border px-6 py-4 flex items-center justify-between">
+  <span class="font-semibold tracking-tight">solokhin.dev</span>
+  <button
+    id="theme-toggle"
+    aria-label="Toggle theme"
+    class="p-2 rounded-(--radius) border border-border bg-muted text-muted-foreground hover:bg-accent hover:text-accent-foreground transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+  >
+    <Sun id="icon-light" size={16} class="hidden" />
+    <Moon id="icon-dark" size={16} class="hidden" />
+    <SunMoon id="icon-system" size={16} class="hidden" />
+  </button>
+</header>
