@@ -1,5 +1,5 @@
-@import "tailwindcss";
 @import url("https://fonts.googleapis.com/css2?family=Inter:wght@200;300;400&display=swap");
+@import "tailwindcss";
 
 /* Scroll offset so sticky header doesn't cover anchor targets */
 @media (min-width: 640px) {
@@ -72,5 +72,5 @@
 }
 
 .section-title {
-  @apply text-3xl mb-6;
+  @apply text-[1.65rem] mb-6 font-inter;
 }
