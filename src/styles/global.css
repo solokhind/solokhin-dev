@@ -1,10 +1,22 @@
 @import "tailwindcss";
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500&family=Inter:wght@200;300;400&display=swap");
+
+/* Scroll offset so sticky header doesn't cover anchor targets */
+@media (min-width: 640px) {
+  html {
+    scroll-padding-top: 6rem;
+    scroll-behavior: smooth;
+  }
+}
 
 /* shadcn-inspired design tokens */
 
 @custom-variant dark (&:where(.dark, .dark *));
 
 @theme inline {
+  --font-poppins: "Poppins", sans-serif;
+  --font-inter: "Inter", sans-serif;
+
   --color-background: var(--background);
   --color-foreground: var(--foreground);
   --color-muted: var(--muted);
