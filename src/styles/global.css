@@ -5,8 +5,11 @@
 @media (min-width: 640px) {
   html {
     scroll-padding-top: 6rem;
-    scroll-behavior: smooth;
   }
+}
+
+html {
+  scroll-behavior: smooth;
 }
 
 /* shadcn-inspired design tokens */
@@ -64,7 +67,7 @@
 }
 
 .prose-body {
-  @apply font-inter font-light text-sm leading-loose text-muted-foreground;
+  @apply font-inter font-light text-base leading-loose text-muted-foreground;
 }
 
 .prose-body p:not(:last-child) {
