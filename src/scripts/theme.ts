@@ -45,8 +45,10 @@ function cycleTheme() {
 showIcon();
 btn?.addEventListener("click", cycleTheme);
 
-window.matchMedia("(prefers-color-scheme: dark)").addEventListener("change", () => {
-  if (!localStorage.getItem("theme")) {
-    applyTheme();
-  }
-});
+window
+  .matchMedia("(prefers-color-scheme: dark)")
+  .addEventListener("change", () => {
+    if (!localStorage.getItem("theme")) {
+      applyTheme();
+    }
+  });

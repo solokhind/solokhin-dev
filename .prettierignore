@@ -1,0 +1,14 @@
+wrangler.jsonc
+worker-configuration.d.ts
+
+node_modules
+
+dist
+
+.vscode
+
+.astro
+
+public/
+
+package-lock.json
