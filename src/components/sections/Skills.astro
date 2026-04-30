@@ -1,3 +1,138 @@
-<section id="skills" class="min-h-screen">
-  <h2>Skills</h2>
+---
+const categories = [
+  {
+    label: "Frontend",
+    skills: [
+      { name: "React", active: true },
+      { name: "TypeScript", active: true },
+      { name: "Tailwind CSS", active: true },
+      { name: "Shadcn UI", active: true },
+      { name: "Javascript" },
+      { name: "Chakra UI" },
+      { name: "Astro" },
+    ],
+  },
+  {
+    label: "Backend",
+    skills: [
+      { name: "Node.js", active: true },
+      { name: "GraphQL", active: true },
+      { name: "Express", active: true },
+      { name: "REST APIs" },
+      { name: "PHP" },
+    ],
+  },
+  {
+    label: "Mobile",
+    skills: [
+      { name: "React Native", active: true },
+      { name: "Android (Java)" },
+    ],
+  },
+  {
+    label: "Databases",
+    skills: [
+      { name: "MySQL", active: true },
+      { name: "Azure Table Storage" },
+      { name: "Cloudflare D1" },
+      { name: "SQL Server" },
+      { name: "SQLite" },
+    ],
+  },
+  {
+    label: "DevOps",
+    skills: [
+      { name: "GitHub Actions", active: true },
+      { name: "Sentry", active: true },
+    ],
+  },
+  {
+    label: "Testing",
+    skills: [
+      { name: "Vitest", active: true },
+      { name: "node:test", active: true },
+      { name: "Jest" },
+      { name: "Playwright" },
+    ],
+  },
+  {
+    label: "Cloud & Infrastructure",
+    skills: [
+      { name: "Azure Functions" },
+      { name: "Azure App Service" },
+      { name: "Azure Static Apps" },
+      { name: "Azure Blob Storage" },
+      { name: "Cloudflare R2" },
+      { name: "Azure Service Bus" },
+      { name: "Azure Key Vault" },
+      { name: "Azure Logic Apps" },
+    ],
+  },
+  {
+    label: "Device Management & MDM",
+    skills: [
+      { name: "Microsoft Intune" },
+      { name: "Zebra Hardware Integration" },
+    ],
+  },
+  {
+    label: "Integrations & APIs",
+    skills: [
+      { name: "Slack & Zoom Bots" },
+      { name: "Payments (PayPal)" },
+      { name: "Marketplaces (eBay, BigCommerce)" },
+      { name: "Logistics (FedEx, USPS)" },
+    ],
+  },
+  {
+    label: "Business Intelligence",
+    skills: [{ name: "Microsoft Power BI" }],
+  },
+];
+---
+
+<section id="skills" class="py-12 sm:[scroll-margin-top:-3rem]">
+  <h2 class="section-title mb-2!">Skills</h2>
+  <div class="relative inline-block mb-6" style="min-width: 0;">
+    <span class="text-xs text-foreground/60 font-light pr-4 relative">
+      Primary Stack
+      <span
+        class="absolute right-2 top-1 w-1 h-1 rounded-full bg-blue-500 border border-blue-400"
+        style="transform: translateY(-35%);"
+        aria-label="Active skill legend"></span>
+    </span>
+  </div>
+
+  <div class="flex flex-col gap-6">
+    {
+      categories.map((cat) => (
+        <div class="flex flex-col gap-2.5">
+          <div class="flex items-center gap-3">
+            <p class="font-inter text-[0.6rem] font-light tracking-[0.22em] uppercase text-foreground/35">
+              {cat.label}
+            </p>
+            <div class="flex-1 h-px bg-border" />
+          </div>
+          <div class="flex flex-wrap gap-2">
+            {cat.skills.map((skill) => (
+              <span
+                class={[
+                  "relative font-inter text-sm font-light tracking-wide text-foreground/80 bg-muted px-3 py-1.5 rounded-sm transition-colors duration-150 hover:bg-accent hover:text-accent-foreground cursor-default",
+                  skill.active ? "pr-4" : "",
+                ].join(" ")}
+              >
+                {skill.name}
+                {skill.active && (
+                  <span
+                    class="absolute right-2 top-2 w-1 h-1 rounded-full bg-blue-500 border border-blue-400"
+                    aria-label="Active skill"
+                  />
+                )}
+              </span>
+            ))}
+          </div>
+        </div>
+      ))
+    }
+  </div>
 </section>
