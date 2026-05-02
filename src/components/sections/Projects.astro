@@ -1,8 +1,12 @@
 ---
+import VideoModal from "../VideoModal.astro";
+
 const projects = [
   {
     id: "01",
     title: "Profit & Order Reporting",
+    videoUrl: "",
+    thumbUrl: "",
     challenge:
       "Financial data (revenue, fees, shipping, supplier costs, etc.) was fragmented across multiple systems.",
     solution:
@@ -21,6 +25,8 @@ const projects = [
   {
     id: "02",
     title: "Cataloging & Inventory Pipeline",
+    videoUrl: "",
+    thumbUrl: "",
     challenge:
       "Cataloging was entirely manual, product details, photos, and storage locations were recorded separately, leading to slow throughput and frequent misplaced inventory.",
     solution:
@@ -40,6 +46,8 @@ const projects = [
   {
     id: "03",
     title: "Warehouse Picking & Fulfillment",
+    videoUrl: "",
+    thumbUrl: "",
     challenge:
       "Picking and fulfillment were entirely paper-based, with printed order slips that were manually sorted and no real-time system.",
     solution:
@@ -113,9 +121,18 @@ const projects = [
               ))}
             </div>
           </div>
-          <div class="group relative min-h-[200px] cursor-pointer overflow-hidden sm:min-h-0 sm:w-[42%]">
+          <div
+            class="group relative min-h-50 cursor-pointer overflow-hidden sm:min-h-0 sm:w-[42%]"
+            data-project-play
+            data-project-title={p.title}
+            data-project-id={p.id}
+            data-project-video={p.videoUrl}
+            role="button"
+            tabindex="0"
+            aria-label={`Watch ${p.title} preview`}
+          >
             <img
-              src="/sample.png"
+              src={p.thumbUrl}
               alt={`${p.title} preview`}
               class="absolute inset-0 h-full object-cover object-left transition-transform duration-500 group-hover:scale-[1.025]"
             />
@@ -141,3 +158,5 @@ const projects = [
     }
   </div>
 </section>
+
+<VideoModal />

@@ -1,0 +1,183 @@
+---
+// Triggered by any element with [data-project-play], [data-project-title],
+// [data-project-id], and [data-project-video] attributes.
+---
+
+<!-- ─── Shared Video Modal ──────────────────────── -->
+<div
+  data-project-modal
+  class="fixed inset-0 z-50 flex items-center justify-center p-6"
+  style="display:none"
+  role="dialog"
+  aria-modal="true"
+  aria-label="Project preview"
+>
+  <!-- Backdrop -->
+  <div
+    data-modal-backdrop
+    class="absolute inset-0 bg-black/50 backdrop-blur-[6px]"
+  >
+  </div>
+
+  <!-- Panel -->
+  <div data-modal-panel class="relative z-10 w-full max-w-[min(92vw,1100px)]">
+    <!-- Top row: label + floating close pill -->
+    <div class="mb-3 flex items-center justify-between">
+      <span
+        data-modal-label
+        class="font-inter text-[0.6rem] font-light tracking-[0.22em] text-white/50 uppercase"
+      >
+        Preview
+      </span>
+      <button
+        data-modal-close
+        class="flex items-center gap-1.5 rounded-full border border-white/20 bg-black/40 px-3.5 py-1.5 font-inter text-[0.6rem] font-light tracking-[0.14em] text-white/55 backdrop-blur-sm transition-all duration-150 hover:border-white/50 hover:text-white/90 uppercase"
+        aria-label="Close preview"
+      >
+        <svg
+          width="8"
+          height="8"
+          viewBox="0 0 8 8"
+          fill="none"
+          aria-hidden="true"
+        >
+          <path
+            d="M1 1l6 6M7 1l-6 6"
+            stroke="currentColor"
+            stroke-width="1.2"
+            stroke-linecap="round"></path>
+        </svg>
+        Close
+      </button>
+    </div>
+
+    <!-- Video frame -->
+    <div
+      class="overflow-hidden rounded-sm border border-[rgba(255,255,255,0.09)] shadow-[0_2px_0_rgba(255,255,255,0.06)_inset,0_32px_72px_rgba(0,0,0,0.55)]"
+    >
+      <video
+        data-modal-video
+        controls
+        muted
+        playsinline
+        preload="metadata"
+        class="block w-full max-h-[74vh] bg-black"></video>
+    </div>
+  </div>
+</div>
+
+<script>
+  (function () {
+    const modal = document.querySelector(
+      "[data-project-modal]",
+    ) as HTMLElement | null;
+    if (!modal) return;
+
+    const backdrop = modal.querySelector(
+      "[data-modal-backdrop]",
+    ) as HTMLElement | null;
+    const panel = modal.querySelector(
+      "[data-modal-panel]",
+    ) as HTMLElement | null;
+    const label = modal.querySelector(
+      "[data-modal-label]",
+    ) as HTMLElement | null;
+    const closeBtn = modal.querySelector("[data-modal-close]");
+    const video = modal.querySelector(
+      "[data-modal-video]",
+    ) as HTMLVideoElement | null;
+
+    // Initialize animation states
+    if (panel) {
+      panel.style.opacity = "0";
+      panel.style.transform = "scale(0.965) translateY(8px)";
+    }
+    if (backdrop) backdrop.style.opacity = "0";
+
+    function openModal(title: string, id: string, videoUrl: string) {
+      if (!panel || !backdrop || !video) return;
+
+      if (label) label.textContent = `${id} · ${title} · Preview`;
+      video.src = videoUrl;
+      video.currentTime = 0;
+
+      modal!.style.display = "flex";
+      requestAnimationFrame(() => {
+        backdrop.style.transition = "opacity 260ms ease";
+        backdrop.style.opacity = "1";
+        panel.style.transition =
+          "opacity 240ms ease 50ms, transform 280ms cubic-bezier(0.16,1,0.3,1) 50ms";
+        panel.style.opacity = "1";
+        panel.style.transform = "scale(1) translateY(0)";
+      });
+
+      const isTouch = matchMedia("(pointer: coarse)").matches;
+      if (isTouch) {
+        video
+          .play()
+          .then(() => {
+            const v = video as HTMLVideoElement & {
+              webkitRequestFullscreen?: () => Promise<void>;
+              mozRequestFullScreen?: () => Promise<void>;
+              msRequestFullscreen?: () => Promise<void>;
+            };
+            const req =
+              v.requestFullscreen ??
+              v.webkitRequestFullscreen ??
+              v.mozRequestFullScreen ??
+              v.msRequestFullscreen;
+            if (req) req.call(v).catch(() => {});
+          })
+          .catch(() => {});
+      } else {
+        video.play().catch(() => {});
+      }
+
+      document.addEventListener("keydown", onKeyDown);
+    }
+
+    function closeModal() {
+      if (!panel || !backdrop || !video) return;
+      panel.style.transition = "opacity 160ms ease, transform 160ms ease";
+      panel.style.opacity = "0";
+      panel.style.transform = "scale(0.965) translateY(6px)";
+      backdrop.style.transition = "opacity 200ms ease 20ms";
+      backdrop.style.opacity = "0";
+      video.pause();
+      setTimeout(() => {
+        modal!.style.display = "none";
+        video.src = "";
+        video.load();
+        panel.style.transition = "";
+        panel.style.transform = "scale(0.965) translateY(8px)";
+        backdrop.style.transition = "";
+      }, 220);
+      document.removeEventListener("keydown", onKeyDown);
+    }
+
+    function onKeyDown(e: KeyboardEvent) {
+      if (e.key === "Escape") closeModal();
+    }
+
+    // Event delegation for play triggers
+    document.addEventListener("click", (e) => {
+      const el = (e.target as HTMLElement).closest("[data-project-play]");
+      if (!el) return;
+      const title = el.getAttribute("data-project-title") ?? "";
+      const id = el.getAttribute("data-project-id") ?? "";
+      const videoUrl = el.getAttribute("data-project-video") ?? "";
+      openModal(title, id, videoUrl);
+    });
+
+    document.addEventListener("keydown", (e) => {
+      if (e.key !== "Enter" && e.key !== " ") return;
+      const el = (e.target as HTMLElement).closest("[data-project-play]");
+      if (!el) return;
+      e.preventDefault();
+      (el as HTMLElement).click();
+    });
+
+    closeBtn?.addEventListener("click", closeModal);
+    backdrop?.addEventListener("click", closeModal);
+  })();
+</script>
