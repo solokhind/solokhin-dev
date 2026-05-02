@@ -5,8 +5,14 @@ const projects = [
   {
     id: "01",
     title: "Profit & Order Reporting",
-    videoUrl: "",
-    thumbUrl: "",
+    videoUrl: {
+      light: "https://assets.solokhin.dev/profit-and-order-reporting-light.mp4",
+      dark: "https://assets.solokhin.dev/profit-and-order-reporting-dark.mp4",
+    },
+    thumbUrl: {
+      light: "https://assets.solokhin.dev/profit-and-order-reporting-light.png",
+      dark: "https://assets.solokhin.dev/profit-and-order-reporting-dark.png",
+    },
     challenge:
       "Financial data (revenue, fees, shipping, supplier costs, etc.) was fragmented across multiple systems.",
     solution:
@@ -25,8 +31,14 @@ const projects = [
   {
     id: "02",
     title: "Cataloging & Inventory Pipeline",
-    videoUrl: "",
-    thumbUrl: "",
+    videoUrl: {
+      light: "https://assets.solokhin.dev/cataloging-and-inventory-light.mp4",
+      dark: "https://assets.solokhin.dev/cataloging-and-inventory-dark.mp4",
+    },
+    thumbUrl: {
+      light: "https://assets.solokhin.dev/cataloging-and-inventory-light.png",
+      dark: "https://assets.solokhin.dev/cataloging-and-inventory-dark.png",
+    },
     challenge:
       "Cataloging was entirely manual, product details, photos, and storage locations were recorded separately, leading to slow throughput and frequent misplaced inventory.",
     solution:
@@ -46,8 +58,14 @@ const projects = [
   {
     id: "03",
     title: "Warehouse Picking & Fulfillment",
-    videoUrl: "",
-    thumbUrl: "",
+    videoUrl: {
+      light: "https://assets.solokhin.dev/picking-and-fulfillment-light.mp4",
+      dark: "https://assets.solokhin.dev/picking-and-fulfillment-dark.mp4",
+    },
+    thumbUrl: {
+      light: "https://assets.solokhin.dev/picking-and-fulfillment-light.png",
+      dark: "https://assets.solokhin.dev/picking-and-fulfillment-dark.png",
+    },
     challenge:
       "Picking and fulfillment were entirely paper-based, with printed order slips that were manually sorted and no real-time system.",
     solution:
@@ -126,13 +144,17 @@ const projects = [
             data-project-play
             data-project-title={p.title}
             data-project-id={p.id}
-            data-project-video={p.videoUrl}
+            data-project-video={p.videoUrl.light}
+            data-project-video-light={p.videoUrl.light}
+            data-project-video-dark={p.videoUrl.dark}
             role="button"
             tabindex="0"
             aria-label={`Watch ${p.title} preview`}
           >
             <img
-              src={p.thumbUrl}
+              data-thumb-light={p.thumbUrl.light}
+              data-thumb-dark={p.thumbUrl.dark}
+              data-project-thumb
               alt={`${p.title} preview`}
               class="absolute inset-0 h-full object-cover object-left transition-transform duration-500 group-hover:scale-[1.025]"
             />
@@ -160,3 +182,46 @@ const projects = [
 </section>
 
 <VideoModal />
+
+<script is:inline>
+  (function () {
+    function isDark() {
+      return document.documentElement.classList.contains("dark");
+    }
+
+    function applyThemeToProjects() {
+      var dark = isDark();
+
+      document.querySelectorAll("[data-project-play]").forEach(function (el) {
+        var url =
+          el.getAttribute(
+            dark ? "data-project-video-dark" : "data-project-video-light",
+          ) || "";
+        el.setAttribute("data-project-video", url);
+      });
+
+      document.querySelectorAll("[data-project-thumb]").forEach(function (img) {
+        var url =
+          img.getAttribute(dark ? "data-thumb-dark" : "data-thumb-light") || "";
+        if (img.getAttribute("src") !== url) img.setAttribute("src", url);
+      });
+    }
+
+    applyThemeToProjects();
+
+    new MutationObserver(function (mutations) {
+      for (var i = 0; i < mutations.length; i++) {
+        if (
+          mutations[i].type === "attributes" &&
+          mutations[i].attributeName === "class"
+        ) {
+          applyThemeToProjects();
+          break;
+        }
+      }
+    }).observe(document.documentElement, {
+      attributes: true,
+      attributeFilter: ["class"],
+    });
+  })();
+</script>
