@@ -1,0 +1,62 @@
+---
+import GitHubIcon from "./icons/GitHubIcon.astro";
+import LinkedInIcon from "./icons/LinkedInIcon.astro";
+
+const builtWith = [
+  { label: "Astro", href: "https://astro.build" },
+  { label: "Tailwind", href: "https://tailwindcss.com" },
+  { label: "Cloudflare", href: "https://workers.cloudflare.com" },
+];
+---
+
+<footer class="flex justify-center w-full px-6 bg-background mt-12">
+  <div class="w-full max-w-180 pb-8">
+    <div class="h-px w-full bg-foreground/15 mb-6"></div>
+    <div class="flex items-center justify-between gap-4">
+      <div class="flex items-center gap-1.5 flex-wrap">
+        <span
+          class="font-inter font-light text-xs tracking-wide text-muted-foreground"
+          >Built with</span
+        >
+        {
+          builtWith.map((item, i) => (
+            <>
+              <a
+                href={item.href}
+                target="_blank"
+                rel="noopener noreferrer"
+                class="font-inter font-light text-xs tracking-wide text-muted-foreground hover:text-foreground transition-colors duration-150"
+              >
+                {item.label}
+              </a>
+              {i < builtWith.length - 1 && (
+                <span class="text-foreground/20 text-xs">·</span>
+              )}
+            </>
+          ))
+        }
+      </div>
+
+      <div class="flex items-center gap-3 shrink-0">
+        <a
+          href="https://github.com/solokhind"
+          target="_blank"
+          rel="noopener noreferrer"
+          aria-label="GitHub"
+          class="text-muted-foreground hover:text-foreground transition-colors duration-150"
+        >
+          <GitHubIcon class="size-4" />
+        </a>
+        <a
+          href="https://www.linkedin.com/in/dmitriy-solokhin-109904177/"
+          target="_blank"
+          rel="noopener noreferrer"
+          aria-label="LinkedIn"
+          class="text-muted-foreground hover:text-foreground transition-colors duration-150"
+        >
+          <LinkedInIcon class="size-4" />
+        </a>
+      </div>
+    </div>
+  </div>
+</footer>
