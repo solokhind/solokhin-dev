@@ -4,7 +4,7 @@
 /* Scroll offset so sticky header doesn't cover anchor targets */
 @media (min-width: 640px) {
   html {
-    scroll-padding-top: 6rem;
+    scroll-padding-top: 4rem;
   }
 }
 
@@ -56,6 +56,16 @@ html {
     --ring: oklch(58% 0.08 250);
   }
 
+  :root {
+    --section-spacing: 4rem;
+  }
+
+  @media (max-width: 640px) {
+    :root {
+      --section-spacing: 3rem;
+    }
+  }
+
   * {
     border-color: var(--border);
   }
@@ -76,4 +86,13 @@ html {
 
 .section-title {
   @apply text-[1.65rem] mb-6 font-inter;
+}
+
+section {
+  padding-top: var(--section-spacing);
+  padding-bottom: var(--section-spacing);
+}
+
+section:last-of-type {
+  padding-bottom: 0;
 }
