@@ -57,12 +57,12 @@ html {
   }
 
   :root {
-    --section-spacing: 4rem;
+    --section-spacing: 3rem;
   }
 
   @media (max-width: 640px) {
     :root {
-      --section-spacing: 3rem;
+      --section-spacing: 2rem;
     }
   }
 
@@ -91,8 +91,4 @@ html {
 section {
   padding-top: var(--section-spacing);
   padding-bottom: var(--section-spacing);
-}
-
-section:last-of-type {
-  padding-bottom: 0;
 }
