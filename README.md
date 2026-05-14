@@ -1,6 +1,6 @@
 # solokhin.dev
 
-This is my personal website, built with [Astro](https://astro.build) and deployed on [Cloudflare Workers](https://workers.cloudflare.com).
+This is my personal website, built with [Astro](https://astro.build) + [Tailwind CSS](https://tailwindcss.com) and deployed on [Cloudflare Workers](https://workers.cloudflare.com).
 
 ## Commands
 
